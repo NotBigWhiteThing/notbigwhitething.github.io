@@ -1,280 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NotBigWhiteThing</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NotBigWhiteThing</title>
 
-  <style>
-    :root {
-      --bg: #050507;
-      --card: rgba(15, 15, 20, 0.9);
-      --neon: #00fff7;
-      --pink: #ff3cac;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-    }
+<style>
+:root {
+  --bg: #050507;
+  --card: rgba(15, 15, 20, 0.9);
+  --neon: #00fff7;
+  --pink: #ff3cac;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+}
 
-    * {
-      box-sizing: border-box;
-      font-family: "JetBrains Mono", monospace;
-    }
+/* Reset & font */
+* {
+  box-sizing: border-box;
+  font-family: "JetBrains Mono", monospace;
+  margin: 0;
+  padding: 0;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background:
-        repeating-linear-gradient(
-          to bottom,
-          rgba(255,255,255,0.02),
-          rgba(255,255,255,0.02) 1px,
-          transparent 1px,
-          transparent 3px
-        ),
-        linear-gradient(
-          135deg,
-          rgba(0,255,156,0.25),
-          rgba(0,179,255,0.25)
-        ),
-        radial-gradient(circle at top, #0a0a15, var(--bg));
-      background-size: 100% 100%, 200% 200%, 100% 100%;
-      animation: gradientShift 12s ease infinite;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text);
-      padding: 20px;
-    }
+/* Full screen splash */
+#splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  color: var(--neon);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%, 0% 50%, center; }
-      50% { background-position: 100% 50%, 100% 50%, center; }
-      100% { background-position: 0% 50%, 0% 50%, center; }
-    }
+/* Portfolio hidden initially */
+#portfolio {
+  display: none;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: var(--text);
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.02),
+      rgba(255,255,255,0.02) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(0,255,156,0.25),
+      rgba(0,179,255,0.25)
+    ),
+    radial-gradient(circle at top, #0a0a15, var(--bg));
+  background-size: 100% 100%, 200% 200%, 100% 100%;
+  animation: gradientShift 12s ease infinite;
+}
 
-    .card {
-      width: 100%;
-      max-width: 460px;
-      background: var(--card);
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow:
-        0 0 25px rgba(0,255,247,0.15),
-        0 0 60px rgba(0,179,255,0.12);
-      animation: fadeIn 0.6s ease;
-    }
+@keyframes gradientShift {
+  0% { background-position: 0% 50%, 0% 50%, center; }
+  50% { background-position: 100% 50%, 100% 50%, center; }
+  100% { background-position: 0% 50%, 0% 50%, center; }
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+/* Card */
+.card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow:
+    0 0 25px rgba(0,255,247,0.15),
+    0 0 60px rgba(0,179,255,0.12);
+  animation: fadeIn 0.6s ease;
+}
 
-    .glitch {
-      position: relative;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--neon);
-      text-shadow: 0 0 10px var(--neon);
-    }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      width: 100%;
-      overflow: hidden;
-    }
+/* Glitch text */
+.glitch {
+  position: relative;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--neon);
+  text-shadow: 0 0 10px var(--neon);
+}
 
-    .glitch::before {
-      color: var(--pink);
-      animation: glitchTop 2s infinite linear;
-    }
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
 
-    .glitch::after {
-      color: var(--neon);
-      animation: glitchBottom 1.5s infinite linear;
-    }
+.glitch::before {
+  color: var(--pink);
+  animation: glitchTop 2s infinite linear;
+}
 
-    @keyframes glitchTop {
-      0% { clip-path: inset(0 0 80% 0); transform: translate(-1px, -1px); }
-      50% { clip-path: inset(0 0 40% 0); transform: translate(1px, 1px); }
-      100% { clip-path: inset(0 0 80% 0); }
-    }
+.glitch::after {
+  color: var(--neon);
+  animation: glitchBottom 1.5s infinite linear;
+}
 
-    @keyframes glitchBottom {
-      0% { clip-path: inset(60% 0 0 0); transform: translate(1px, 0); }
-      50% { clip-path: inset(30% 0 0 0); transform: translate(-1px, 1px); }
-      100% { clip-path: inset(60% 0 0 0); }
-    }
+@keyframes glitchTop {
+  0% { clip-path: inset(0 0 80% 0); transform: translate(-1px, -1px); }
+  50% { clip-path: inset(0 0 40% 0); transform: translate(1px, 1px); }
+  100% { clip-path: inset(0 0 80% 0); }
+}
 
-    .tag {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
+@keyframes glitchBottom {
+  0% { clip-path: inset(60% 0 0 0); transform: translate(1px, 0); }
+  50% { clip-path: inset(30% 0 0 0); transform: translate(-1px, 1px); }
+  100% { clip-path: inset(60% 0 0 0); }
+}
 
-    .terminal {
-      margin: 18px 0;
-      background: #020204;
-      border-radius: 10px;
-      padding: 14px;
-      border: 1px solid rgba(0,255,247,0.2);
-      box-shadow: inset 0 0 10px rgba(0,255,247,0.15);
-    }
+/* Terminal */
+.terminal {
+  margin: 18px 0;
+  background: #020204;
+  border-radius: 10px;
+  padding: 14px;
+  border: 1px solid rgba(0,255,247,0.2);
+  box-shadow: inset 0 0 10px rgba(0,255,247,0.15);
+}
 
-    .prompt { color: var(--neon); }
+.prompt { color: var(--neon); }
 
-    .cursor {
-      display: inline-block;
-      width: 8px;
-      background: var(--neon);
-      margin-left: 4px;
-      animation: blink 1s infinite;
-    }
+.cursor {
+  display: inline-block;
+  width: 8px;
+  background: var(--neon);
+  margin-left: 4px;
+  animation: blink 1s infinite;
+}
 
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
+@keyframes blink { 50% { opacity: 0; } }
 
-    .lanyard {
-      margin: 20px 0;
-      display: flex;
-      justify-content: center;
-    }
+.tag { margin-top: 6px; color: var(--muted); font-size: 0.9rem; }
 
-    .lanyard img {
-      width: 100%;
-      max-width: 340px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(88,101,242,0.35);
-    }
+.lanyard { margin: 20px 0; display: flex; justify-content: center; }
 
-    .links {
-      display: flex;
-      gap: 12px;
-      margin-top: 18px;
-    }
+.lanyard img {
+  width: 100%;
+  max-width: 340px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(88,101,242,0.35);
+}
 
-    .links a {
-      flex: 1;
-      text-align: center;
-      padding: 12px;
-      border-radius: 10px;
-      text-decoration: none;
-      color: var(--neon);
-      border: 1px solid rgba(0,255,247,0.4);
-      transition: all 0.15s ease;
-    }
+.links { display: flex; gap: 12px; margin-top: 18px; }
 
-    .links a:hover {
-      background: rgba(0,255,247,0.1);
-      box-shadow: 0 0 15px rgba(0,255,247,0.4);
-      transform: translateY(-2px);
-    }
+.links a {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--neon);
+  border: 1px solid rgba(0,255,247,0.4);
+  transition: all 0.15s ease;
+}
 
-    footer {
-      margin-top: 16px;
-      text-align: center;
-      font-size: 0.7rem;
-      color: var(--muted);
-    }
+.links a:hover {
+  background: rgba(0,255,247,0.1);
+  box-shadow: 0 0 15px rgba(0,255,247,0.4);
+  transform: translateY(-2px);
+}
 
-    /* Hacker style music button */
-    #musicBtn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: transparent;
-      color: var(--neon);
-      border: 1px solid rgba(0,255,247,0.6);
-      padding: 10px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: inherit;
-      box-shadow: 0 0 12px rgba(0,255,247,0.3);
-      transition: all 0.15s ease;
-    }
+footer { margin-top: 16px; text-align: center; font-size: 0.7rem; color: var(--muted); }
 
-    #musicBtn:hover {
-      background: rgba(0,255,247,0.1);
-      box-shadow: 0 0 20px rgba(0,255,247,0.6);
-    }
-  </style>
+</style>
 </head>
 <body>
 
+<!-- Splash screen -->
+<div id="splash">Click here to continue</div>
+
+<!-- Portfolio -->
+<div id="portfolio">
   <div class="card">
     <div class="glitch" data-text="NotBigWhiteThing 🇺🇲">NotBigWhiteThing 🇺🇲</div>
-
     <div class="tag">
       developer • he/him • age <span id="age"></span>
     </div>
-
     <div class="terminal">
       <span class="prompt">$ </span>
       <span id="typing"></span>
       <span class="cursor"></span>
     </div>
-
     <div class="lanyard">
       <a href="https://discord.com/users/1444207832172990509" target="_blank">
         <img src="https://lanyard.cnrad.dev/api/1444207832172990509?bg=020204&borderRadius=12">
       </a>
     </div>
-
     <div class="links">
       <a href="https://github.com/NotBigWhiteThing" target="_blank">GitHub</a>
       <a href="https://discord.com/users/1444207832172990509" target="_blank">Discord</a>
       <a href="mailto:Ethan.guel.29@outlook.com">Email</a>
     </div>
-
-    <footer>i lik dragons</footer>
+    <footer>good boy</footer>
   </div>
+</div>
 
-  <!-- Click-to-start Music -->
-  <button id="musicBtn">Party Mode</button>
-  <audio id="music" loop>
-    <source src="https://notbigwhitething.github.io/music.mp3" type="audio/mpeg">
-  </audio>
+<!-- Audio -->
+<audio id="music" loop>
+  <source src="https://notbigwhitething.github.io/music.mp3" type="audio/mpeg">
+</audio>
 
-  <script>
-    // typing animation
-    const text = "Hi, Im NotBigWhiteThing. I like to do weird stuff";
-    const typingEl = document.getElementById("typing");
-    let i = 0;
+<script>
+// Splash click → show portfolio + play music
+const splash = document.getElementById("splash");
+const portfolio = document.getElementById("portfolio");
+const music = document.getElementById("music");
 
-    function type() {
-      if (i < text.length) {
-        typingEl.textContent += text.charAt(i);
-        i++;
-        setTimeout(type, 45);
-      }
-    }
-    type();
+splash.addEventListener("click", () => {
+  splash.style.opacity = 0;
+  setTimeout(() => { splash.style.display = "none"; }, 600);
+  portfolio.style.display = "flex";
+  music.volume = 0.4;
+  music.play();
+});
 
-    // auto age updater (Nov 29, 2012)
-    const birthDate = new Date(2012, 10, 29);
-    const today = new Date();
+// Typing animation
+const text = "Hi, Im NotBigWhiteThing. I like to do weird stuff";
+const typingEl = document.getElementById("typing");
+let i = 0;
+function type() {
+  if(i < text.length){
+    typingEl.textContent += text.charAt(i);
+    i++;
+    setTimeout(type,45);
+  }
+}
+type();
 
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const hadBirthday =
-      today.getMonth() > birthDate.getMonth() ||
-      (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
-
-    if (!hadBirthday) age--;
-    document.getElementById("age").textContent = age;
-
-    // music button functionality
-    const music = document.getElementById("music");
-    const btn = document.getElementById("musicBtn");
-
-    btn.addEventListener("click", () => {
-      music.volume = 0.4;
-      music.play();
-      btn.remove();
-    });
-  </script>
+// Age updater
+const birthDate = new Date(2012,10,29);
+const today = new Date();
+let age = today.getFullYear() - birthDate.getFullYear();
+const hadBirthday =
+  today.getMonth() > birthDate.getMonth() ||
+  (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+if(!hadBirthday) age--;
+document.getElementById("age").textContent = age;
+</script>
 
 </body>
 </html>
